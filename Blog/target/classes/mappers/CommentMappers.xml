@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comment">
+	<insert id="insertcomment" parameterType="java.lang.String">
+		insert into blog
+			(idx,id,email,name,story,image,reg_date)
+			values
+			( 
+			  (select nvl(max(idx),0)+1 from blog),#{id},#{email},#{name}, #{story},#{image},sysdate
+			)
+	</insert>
+	
+	<delete id="deletecomment" parameterType="java.lang.Integer">
+		delete from blog where idx = #{idx}
+	</delete>
+	
+	<update id="updatecomment" parameterType="com.cafe.init.comment.CommentDTO">
+		update blog 
+			set story=#{story}
+			where idx=#{idx}
+	</update>
+	
+	<select id="selectAll" resultType="com.cafe.init.comment.CommentDTO">
+		select * from blog order by idx desc
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
