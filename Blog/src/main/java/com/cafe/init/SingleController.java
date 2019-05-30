@@ -46,29 +46,24 @@ public class SingleController {
 	 * model.addAttribute("singleList",al); return "single"; }
 	 */
 	
-		@RequestMapping(value = "/single/insert")
-		public String insertProc(Model model, HttpSession session,
-					SingleDTO mdto	) {
-			int temp = sqlsession.insert("single.insertsingle",mdto);
-			if( temp ==1 ) {
-	//			System.out.println("insert 성공");
-				session.setAttribute("db_md", mdto);
-				List<SingleDTO> list = sqlsession.selectList("single.selectAll");
-				model.addAttribute("singleListPage", list);
-				
-				List<SingleDTO> al = sqlsession.selectList("single.selectpage", new Page(1, 10));
-				int pageCnt = sqlsession.selectOne("single.selectcount");
-				model.addAttribute("singleListPage", al);
-				model.addAttribute("singleListCount", pageCnt);
-				
-				return "single";
-				
-			}else {
-//				System.out.println("insert 실패");
-				model.addAttribute("joininfo","피치못할사정에 insert실패했어요..");
-				return "single";
-			}
-		}
+	/*
+	 * @RequestMapping(value = "/single/insert") public String insertProc(Model
+	 * model, HttpSession session, SingleDTO mdto ) { int temp =
+	 * sqlsession.insert("single.insertsingle",mdto); if( temp ==1 ) { //
+	 * System.out.println("insert 성공"); session.setAttribute("db_md", mdto);
+	 * List<SingleDTO> list = sqlsession.selectList("single.selectAll");
+	 * model.addAttribute("singleListPage", list);
+	 * 
+	 * List<SingleDTO> al = sqlsession.selectList("single.selectpage", new Page(1,
+	 * 10)); int pageCnt = sqlsession.selectOne("single.selectcount");
+	 * model.addAttribute("singleListPage", al);
+	 * model.addAttribute("singleListCount", pageCnt);
+	 * 
+	 * return "single";
+	 * 
+	 * }else { // System.out.println("insert 실패");
+	 * model.addAttribute("joininfo","피치못할사정에 insert실패했어요.."); return "single"; } }
+	 */
 		
 		@RequestMapping(value = "/single")
 		public String home(Locale locale, Model model,HttpSession session,

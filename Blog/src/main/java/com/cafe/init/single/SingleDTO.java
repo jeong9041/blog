@@ -4,7 +4,7 @@ public class SingleDTO {
 
 	private int idx;
 	private String name;
-	private String image;
+	private String imageFileName;
 	private String message;
 	private String reg_date;
 	
@@ -12,9 +12,16 @@ public class SingleDTO {
 	
 	@Override
 	public String toString() {
-		return "SingleDTO [idx=" + idx + ", name=" + name + ", image=" + image + ", message=" + message + ", reg_date="
-				+ reg_date + "]";
+		return "SingleDTO [idx=" + idx + ", name=" + name + ", imageFileName=" + imageFileName + ", message=" + message
+				+ ", reg_date=" + reg_date + "]";
 	}
+	public String getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+	
 	public String getReg_date() {
 		return reg_date;
 	}
@@ -32,12 +39,6 @@ public class SingleDTO {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
 	}
 	public String getMessage() {
 		return message;

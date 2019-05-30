@@ -1,8 +1,10 @@
 package com.cafe.init.comment;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -14,7 +16,13 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.cafe.init.single.Page;
+import com.cafe.init.single.SingleDTO;
+import com.cafe.init.single.SingleService;
 
 @Controller
 public class FileUploadController {
@@ -24,53 +32,61 @@ public class FileUploadController {
 	
 	@Autowired
 	ServletContext sc;
-
-	@RequestMapping(value = "/fileupload", method = RequestMethod.GET)
-	public String fileuploadget(Model model) {
-		logger.info("get방식 요청");
-		model.addAttribute("menu", "fileupload");
-		return "fileupload/index";
-	}
-
-	@RequestMapping(value = "/fileupload", method = RequestMethod.POST)
-	public String fileuploadpost(Model model, MultipartFile pfile) {
-		System.out.println("테스트");
-		
-		String resource_path = sc.getRealPath("/resources/");
-		
-		System.out.println(resource_path);
-		File file = new File(resource_path, "a.jpg");
-		System.out.println(file.getAbsolutePath());
-		System.out.println(pfile);
-
-		try {
-			FileCopyUtils.copy(pfile.getBytes(), file);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		model.addAttribute("menu", "fileupload");
-		model.addAttribute("impath", file.getName());
-		return "fileupload/index";
-	}
 	
-	@RequestMapping(value = "/fileupload/ajax", method = RequestMethod.POST)
-	public String fileuploadpostAjax(Model model, MultipartFile pfile) {
-		System.out.println("테스트");
+	@Autowired
+	SingleService ms;
+	
 		
+	@RequestMapping(value = "/fileupload/ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public String fileuploadpostAjax(Model model, 
+									MultipartFile image
+									,
+									@RequestParam(required = false) String message,
+									@RequestParam String subscribe,
+									@RequestParam String name,
+									HttpSession session,
+									SingleDTO mdto
+									) {
+		
+		
+		/*
+		 * System.out.println("message"+message);
+		 * System.out.println("subscribe"+subscribe); System.out.println("name"+name);
+		 * System.out.println("테스트");
+		 */
+				
 		String resource_path = sc.getRealPath("/resources/");
 		
 		System.out.println(resource_path);
 		File file = new File(resource_path, System.currentTimeMillis()+".jpg");
 		System.out.println(file.getAbsolutePath());
-		System.out.println(pfile);
+		System.out.println(image);
 
 		try {
-			FileCopyUtils.copy(pfile.getBytes(), file);
+			FileCopyUtils.copy(image.getBytes(), file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("menu", "fileupload");
-		model.addAttribute("attribute", file.getName());
-		return "fileAjax";
+		
+		mdto.setImageFileName(file.getName()); //MultipartFile image를 mdto의 파일이름 imagefilename로변환
+		int temp = sqlsession.insert("single.insertsingle",mdto);
+		if( temp ==1 ) {
+//			System.out.println("insert 성공");
+			session.setAttribute("db_md", mdto);
+			List<SingleDTO> list = sqlsession.selectList("single.selectAll");
+			model.addAttribute("singleListPage", list);
+			
+			List<SingleDTO> al = sqlsession.selectList("single.selectpage", new Page(1, 10));
+			int pageCnt = sqlsession.selectOne("single.selectcount");
+			model.addAttribute("singleListPage", al);
+			model.addAttribute("singleListCount", pageCnt);
+		}
+		
+		/*
+		 * model.addAttribute("menu", "fileupload"); model.addAttribute("attribute",
+		 * file.getName());
+		 */
+		return "abcdefg";
 	}
 }

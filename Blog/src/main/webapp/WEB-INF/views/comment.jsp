@@ -26,11 +26,12 @@
 	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="/resources/js/template.js"></script>
 	
-	<script type="text/javascript">
-	function doupload() {
-		var form = $('#fileUploadForm')[0];
+<script type="text/javascript">
+	function doupload(){
+//		alert('일로오나');
+		var form = $('#commentform')[0];
 		var data = new FormData(form);
-		data.append("CustomField", "This is some extra data, testing");
+		data.append("text", "20190530");
 		
 		$.ajax({
 			type : "POST",
@@ -42,10 +43,14 @@
 			cache : false,
 			timeout : 600000,
 			success : function(data) {
-				alert(' data ='+data )
+		//		alert(' data ='+data ) //data는 컨트롤러의 리턴값이 들어온다
 				$('#imgpath').attr('src','/resources/'+data);
+		//		alert('저장에 성공하였습니다.');
+				location.href='/single/#comments';
 			},
 			error : function(e) {
+				alert(e.status);
+				alert(e.responseText);
 			}
 		});
 	}
@@ -92,7 +97,7 @@
 
 <!------------container------->
 
-<div class="container">
+<div class="container" id="commentstart">
 
 <h1>COMMENT BOX</h1>
 <!-------Wrap------------>
@@ -116,7 +121,7 @@
 <div class="row">
 <div class="col-md-12">
 
-<form action="/single/insert" method="POST" id="commentform">
+<form action="" method="POST" id="commentform" enctype="multipart/form-data">
 	
 		<div id="comment-name" class="form-row">
 			<input type ="text" placeholder = "Name (required)" name ="name"  id ="name" >
@@ -124,11 +129,12 @@
 		
 		<div class="form-row">
 		
-		<form id="fileUploadForm" method="post" enctype="multipart/form-data">
+		
 			<div class="container">
 				  <div class="row">
 				  <div class="col-sm-2 imgUp">
-				    <div class="avatar" alt="Avatar" ></div>
+				  
+				    <div class="avatar" alt="Avatar" id="imgpath" src="/resources/${impath}"></div>
 						<label>
 							   Upload<input type="file" class="uploadFile img" name="image"
 							   value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
@@ -136,16 +142,19 @@
 				   </div>	
 				</div>
 			</div>
-		</form>
+		
 		
 		</div>
 				
 		<div id="comment-message" class="form-row">
-			<textarea name = "message" placeholder = "Message" id = "comment" ></textarea>
+			<textarea name="message" placeholder = "Message" id = "comment" ></textarea>
 		</div>
-			<a href="#"><input type="submit" onclick="doupload();" name="dsubmit" id="commentSubmit" value="Submit Comment"></a>
+			<a href="#">
+			<input type="button" onclick="doupload();" name="dsubmit" id="commentSubmit" value="Submit Comment"></a>
 			<input style="width: 30px" type="checkbox" value="1" name="subscribe" id="subscribe" checked="checked">
-		<p1><b>Notify me when new comments are added.</b></p1>
+		<p1>
+			<b>Notify me when new comments are added.</b>
+		</p1>
 </form>
 
 </div>

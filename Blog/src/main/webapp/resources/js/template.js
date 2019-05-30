@@ -59,11 +59,7 @@ $(function() {
 uploadFile.closest(".imgUp").find('.avatar').css("background-image", "url("+this.result+")");
             }
         }
-       /* // client -> server file upload
-        $.ajx({
-        	
-        	
-        });*/
-      
+        
     });
 });
+

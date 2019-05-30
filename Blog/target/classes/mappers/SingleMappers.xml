@@ -3,12 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="single">
-	<insert id="insertsingle" parameterType="java.lang.String">
+	<insert id="insertsingle" parameterType="com.cafe.init.single.SingleDTO">
 		insert into commentbox
-			(idx,name,image,message,reg_date)
+			(idx,name,imageFileName,message,reg_date)
 			values
 			( 
-			  (select nvl(max(idx),0)+1 from commentbox),#{name},#{image},#{message},sysdate
+			  (select nvl(max(idx),0)+1 from commentbox),#{name},#{imageFileName},#{message},sysdate
 			)
 	</insert>
 	
@@ -30,7 +30,7 @@
 		resultType="com.cafe.init.single.SingleDTO"
 		parameterType="com.cafe.init.single.Page">
 		select * from ( select rownum rnum, b.* from (
-			select idx,name,image,message,reg_date from commentbox
+			select idx,name,imageFileName,message,reg_date from commentbox
 			order by idx desc ) b )
 		where rnum BETWEEN #{startrow} and #{endrow}
 	</select>

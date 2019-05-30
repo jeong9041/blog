@@ -226,7 +226,7 @@
 
 				<div id="comments">	
 					<h3 class="comments-title">3 Comments</h3>
-					<a href="/comment" class="leave-comment">Leave a Comment</a>
+					<a href="/comment/#commentstart" class="leave-comment">Leave a Comment</a>
 					<c:forEach items="${singleListPage}" var="mdto" varStatus="i">
 						<c:choose>
  							<c:when test="${i.index < 5 }">
@@ -235,7 +235,7 @@
 									<li class="comment">
 									
 										<div>							
-											<img id="imgpath" src="/resources/${mdto.image}" alt="Avatar" class="avatar">
+											<img id="imgpath" src="/resources/${mdto.imageFileName}" alt="Avatar" class="avatar">
 											
 											<div class="comment-meta">
 												<span class="author"><a href="#">${mdto.name}</a></span>
@@ -261,6 +261,7 @@
 					</div></nav><!-- #comment-nav-below --> 
  
 					<!-- 추가 -->
+			
 				<div class="row">
 					<div class="col">
 						<nav aria-label="singlePage">
