@@ -21,8 +21,7 @@ public class AboutController {
 			System.out.println("수정함");
 			System.out.println("수정함");
 			System.out.println("수정함");
-			System.out.println("수정함");
-			
+		
 			return "about";
 		}
 	
