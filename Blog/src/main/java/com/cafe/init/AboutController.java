@@ -18,9 +18,7 @@ public class AboutController {
 	//2019-06-17 수정
 		@RequestMapping(value="/about")
 		public String AboutIndex() {
-			System.out.println("수정함");
-			System.out.println("수정함");
-			System.out.println("수정함");
+			
 		
 			return "about";
 		}
