@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class AboutController {
 	
-	//2019-06-17 수정
+	
 		@RequestMapping(value="/about")
 		public String AboutIndex() {
 			
